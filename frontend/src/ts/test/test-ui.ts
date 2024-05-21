@@ -18,7 +18,7 @@ import * as SlowTimer from "../states/slow-timer";
 import * as CompositionState from "../states/composition";
 import * as ConfigEvent from "../observables/config-event";
 import * as Hangul from "hangul-js";
-import format from "date-fns/format";
+import { format } from "date-fns/format";
 import { isAuthenticated } from "../firebase";
 import { skipXpBreakdown } from "../elements/account-button";
 import * as FunboxList from "./funbox/funbox-list";
@@ -497,9 +497,10 @@ function updateWordsHeight(force = false): void {
       .css("overflow", "hidden");
 
     if (Config.tapeMode !== "off") {
-      $("#words").css("width", "200%").css("margin-left", "50%");
+      $("#words").width("200vw");
+      scrollTape();
     } else {
-      $("#words").css("width", "100%").css("margin-left", "unset");
+      $("#words").css({ marginLeft: "unset", width: "" });
     }
 
     $("#wordsWrapper")
@@ -954,7 +955,7 @@ export function scrollTape(): void {
 }
 
 export function updatePremid(): void {
-  const mode2 = Misc.getMode2(Config, TestWords.randomQuote);
+  const mode2 = Misc.getMode2(Config, TestWords.currentQuote);
   let fbtext = "";
   if (Config.funbox !== "none") {
     fbtext = " " + Config.funbox.split("#").join(" ");
@@ -1102,7 +1103,7 @@ async function loadWordsHistory(): Promise<boolean> {
       input?.match(
         /[\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]/g
       ) !== null ||
-      word.match(
+      word?.match(
         /[\uac00-\ud7af]|[\u1100-\u11ff]|[\u3130-\u318f]|[\ua960-\ua97f]|[\ud7b0-\ud7ff]/g
       ) !== null;
     let wordEl = "";

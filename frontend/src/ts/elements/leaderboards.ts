@@ -6,9 +6,9 @@ import * as Misc from "../utils/misc";
 import * as Arrays from "../utils/arrays";
 import * as Numbers from "../utils/numbers";
 import * as Notifications from "./notifications";
-import format from "date-fns/format";
+import { format } from "date-fns/format";
 import { isAuthenticated } from "../firebase";
-import differenceInSeconds from "date-fns/differenceInSeconds";
+import { differenceInSeconds } from "date-fns/differenceInSeconds";
 import { getHTMLById as getBadgeHTMLbyId } from "../controllers/badge-controller";
 import * as ConnectionState from "../states/connection";
 import * as Skeleton from "../utils/skeleton";
@@ -688,36 +688,18 @@ export function show(): void {
         // contentPosition: "relative",
       },
       data: [
-        {
-          value: "english",
-          text: "english",
-          selected: true,
-        },
-        {
-          value: "spanish",
-          text: "spanish",
-        },
-        {
-          value: "german",
-          text: "german",
-        },
-        {
-          value: "french",
-          text: "french",
-        },
-        {
-          value: "portuguese",
-          text: "portuguese",
-        },
-        {
-          value: "indonesian",
-          text: "indonesian",
-        },
-        {
-          value: "italian",
-          text: "italian",
-        },
-      ],
+        "english",
+        "spanish",
+        "german",
+        "french",
+        "portuguese",
+        "indonesian",
+        "italian",
+      ].map((lang) => ({
+        value: lang,
+        text: lang,
+        selected: lang === currentLanguage,
+      })),
       events: {
         afterChange: (newVal): void => {
           currentLanguage = newVal[0]?.value as string;
